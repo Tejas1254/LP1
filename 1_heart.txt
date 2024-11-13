@@ -1,0 +1,67 @@
+import pandas as pd
+
+df = pd.read_csv('/content/Heart.csv')
+
+df.columns
+
+df.head()
+
+df.shape
+
+df.isnull()
+
+df.isnull().sum()
+
+df.count()
+
+df.info()
+
+df.dtypes
+
+df==0
+
+df[df==0]
+
+df[df==0].count()
+
+df['Age']
+
+df['Age'].mean()
+
+df['Age'].median()
+
+df['Age'].mode()
+
+df.columns
+
+newdf=df[['Age', 'Sex', 'ChestPain', 'RestBP', 'Chol']]
+
+from sklearn.model_selection import train_test_split
+
+tarin,test=train_test_split(newdf,random_state=0,test_size=0.25)
+
+tarin.shape
+
+test.shape
+
+import numpy as np
+
+actual = list(np.ones(45)) +list(np.zeros(55))
+
+prediction= list(np.ones(40)) +list(np.zeros(52)) + list(np.ones(8))
+
+np.array(actual)
+
+np.array(prediction)
+
+from sklearn.metrics import ConfusionMatrixDisplay
+
+ConfusionMatrixDisplay.from_predictions(actual,prediction)
+
+from sklearn.metrics import accuracy_score
+
+accuracy_score(actual,prediction)
+
+from sklearn.metrics import classification_report
+
+print(classification_report(actual,prediction))
