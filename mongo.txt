@@ -1,0 +1,63 @@
+db.collectionName.insertOne({ key1: "value1", key2: "value2" });
+db.collectionName.insertMany([
+  { key1: "value1", key2: "value2" },
+  { key1: "value3", key2: "value4" }
+]);
+
+db.collectionName.deleteOne({ key1: "value1" });
+db.collectionName.deleteMany({ key2: "value2" });
+
+db.collectionName.updateOne(
+  { key1: "value1" },
+  { $set: { key2: "newValue" } }
+);
+
+db.collectionName.find({ $or: [{ key1: "value1" }, { key2: "value2" }] });
+
+db.collectionName.find().sort({ key: 1 });
+
+db.collectionName.find({ key: { $gt: 10 } });
+
+db.collectionName.find({ key: null });
+
+db.collectionName.find({ key2: { $regex: /^val/ } });
+db.collectionName.find({ key2: { $regex: /val$/ } });
+db.collectionName.find({ key2: { $regex: /val.end/ } });
+db.collectionName.find({ key2: { $regex: /val.*end/ } });
+
+db.collectionName.find().limit(5);
+db.collectionName.find().skip(5);
+db.collectionName.find().sort({ price: 1 });
+
+db.collectionName.find({}, { name: 1, price: 1 });
+db.collectionName.find({ price: { $gt: 500, $lt: 1500 } });
+
+db.collectionName.find({ category: { $in: ["electronics", "furniture"] } });
+
+db.collectionName.find({ category: "electronics" }).explain("executionStats");
+
+--------------------------------------------------------------------------
+indexing
+
+Indexing in MongoDB is a key concept that helps improve the performance of queries by allowing the database to find and retrieve specific documents faster. Without indexes, MongoDB has to scan every document in a collection to fulfill a query, which can be very slow for large datasets. Indexes speed up this process by creating a data structure (like a "table of contents") that points to the documents that match the query criteria.
+
+db.student.createIndex({name:1})
+db.student.getIndexes()
+db.student.dropIndex('name_1')
+--------------------------------------------------------------------------
+map reduce
+
+var mapFunction= function(){emit(this.name,this.marks);};
+var reduceFunction = function(key,values){return Array.sum(values);};
+db.student.mapReduce(mapFunction,reduceFunction,{out:'TotalM'});
+db.TotalM.find()
+
+--------------------------------------------------------------------------
+aggregation
+
+db.student.aggregate([{$match:{rollno:{$gt:1}}},{$limit:2}])
+db.sales.aggregate([
+   { $match: { amount: { $gt: 1000 } } },
+   { $group: { _id: "$product", totalSales: { $sum: "$amount" } } },
+   { $sort: { totalSales: -1 } }
+])
